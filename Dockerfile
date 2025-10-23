@@ -8,6 +8,8 @@ ENV TZ=Asia/Shanghai \
 
 COPY entrypoint.sh /entrypoint.sh
 COPY reboot.sh /usr/local/sbin/reboot
+COPY index.js /index.js
+COPY package.json /package.js
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
@@ -18,9 +20,11 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     chmod +x /entrypoint.sh; \
     chmod +x /usr/local/sbin/reboot; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
-    echo $TZ > /etc/timezone
+    echo $TZ > /etc/timezone; \
+    chmod +x index.js; \
+    npm install --verbose
 
-EXPOSE 3000
+EXPOSE 3000/tcp
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/sshd", "-D"]
