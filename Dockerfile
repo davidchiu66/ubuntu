@@ -3,8 +3,8 @@ FROM ubuntu:22.04
 LABEL org.opencontainers.image.source="https://github.com/vevc/ubuntu"
 
 ENV TZ=Asia/Shanghai \
-    SSH_USER=root \
-    SSH_PASSWORD=root123456
+    SSH_USER=ubuntu \
+    SSH_PASSWORD=12345678
 
 COPY entrypoint.sh /entrypoint.sh
 COPY reboot.sh /usr/local/sbin/reboot
@@ -20,7 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone
 
-EXPOSE 22
+EXPOSE 3000
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/sshd", "-D"]
