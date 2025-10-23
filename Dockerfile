@@ -3,8 +3,8 @@ FROM ubuntu:22.04
 LABEL org.opencontainers.image.source="https://github.com/vevc/ubuntu"
 
 ENV TZ=Asia/Shanghai \
-    SSH_USER=ubuntu \
-    SSH_PASSWORD=ubuntu!23
+    SSH_USER=root \
+    SSH_PASSWORD=root123456
 
 COPY entrypoint.sh /entrypoint.sh
 COPY reboot.sh /usr/local/sbin/reboot
