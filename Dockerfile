@@ -11,6 +11,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
 COPY package.json /package.json
+COPY app.sh /app.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
@@ -21,6 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     chmod +x /entrypoint.sh; \
     chmod +x /usr/local/sbin/reboot; \
     chmod +x index.js; \
+    chmod +x app.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone
 
