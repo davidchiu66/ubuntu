@@ -10,7 +10,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
-COPY package.json /package.js
+COPY package.json /package.json
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
@@ -20,12 +20,12 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     mkdir /var/run/sshd; \
     chmod +x /entrypoint.sh; \
     chmod +x /usr/local/sbin/reboot; \
+    chmod +x index.js; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone; \
-    chmod +x index.js; \
     npm install --verbose
 
-EXPOSE 22/tcp
+EXPOSE 22
 
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["/usr/sbin/sshd", "-D"]
