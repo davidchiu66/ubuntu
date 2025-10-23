@@ -24,7 +24,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     chmod +x index.js; \
     npm install --verbose
 
-EXPOSE 3000/tcp
+EXPOSE 22/tcp
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/sbin/sshd", "-D"]
