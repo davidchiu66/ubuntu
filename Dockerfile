@@ -22,8 +22,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     chmod +x /usr/local/sbin/reboot; \
     chmod +x index.js; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
-    echo $TZ > /etc/timezone; \
-    npm install --verbose
+    echo $TZ > /etc/timezone
 
 EXPOSE 22
 
