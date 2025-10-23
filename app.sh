@@ -3,7 +3,6 @@
 set -e
 
 echo "--- 正在安装应用依赖 ---"
-npm install --verbose
 
 echo "--- 正在启动应用 ---"
 nohup node index.js &
