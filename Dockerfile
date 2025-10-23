@@ -7,6 +7,7 @@ ENV TZ=Asia/Shanghai \
     SSH_PASSWORD=12345678
 
 COPY entrypoint.sh /entrypoint.sh
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
 COPY package.json /package.js
@@ -27,4 +28,6 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
 EXPOSE 22/tcp
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/sbin/sshd", "-D"]
+#CMD ["/usr/sbin/sshd", "-D"]
+# CMD 指令指向 supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
