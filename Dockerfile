@@ -10,6 +10,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
+COPY app.js /app.js
 COPY package.json /package.json
 COPY app.sh /app.sh
 
