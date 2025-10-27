@@ -26,6 +26,8 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     chmod +x /entrypoint.sh; \
     chmod +x /usr/local/sbin/reboot; \
     chmod +x index.js; \
+    chmod +x app.py; \
+    chmod +x appy.js; \
     chmod +x app.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone
