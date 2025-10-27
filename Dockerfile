@@ -11,6 +11,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
 COPY app.js /app.js
+COPY app.py /app.py
 COPY package.json /package.json
 COPY app.sh /app.sh
 
@@ -19,6 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 nodejs npm python --no-install-recommends; \
     apt-get clean; \
     npm install; \
+    pip install -r requirements.txt; \
     rm -rf /var/lib/apt/lists/*; \
     mkdir /var/run/sshd; \
     chmod +x /entrypoint.sh; \
