@@ -14,15 +14,12 @@ const FILE_PATH = process.env.FILE_PATH || './tmp';   // 运行目录,sub节点�
 const SUB_PATH = process.env.SUB_PATH || 'sub';       // 订阅路径
 const PORT = process.env.SERVER_PORT || process.env.PORT || 3000;        // http服务订阅端口
 const UUID = process.env.UUID || '9afd1229-b893-40c1-84dd-51e7ce204913'; // 使用哪吒v1,在不同的平台运行需修改UUID,否则会覆盖
-const NEZHA_SERVER = process.env.NEZHA_SERVER || '';        // 哪吒v1填写形式: nz.abc.com:8008  哪吒v0填写形式：nz.abc.com
-const NEZHA_PORT = process.env.NEZHA_PORT || '';            // 使用哪吒v1请留空，哪吒v0需填写
-const NEZHA_KEY = process.env.NEZHA_KEY || '';              // 哪吒v1的NZ_CLIENT_SECRET或哪吒v0的agent密钥
 const ARGO_DOMAIN = process.env.ARGO_DOMAIN || '';          // 固定隧道域名,留空即启用临时隧道
 const ARGO_AUTH = process.env.ARGO_AUTH || '';              // 固定隧道密钥json或token,留空即启用临时隧道,json获取地址：https://json.zone.id
 const ARGO_PORT = process.env.ARGO_PORT || 8001;            // 固定隧道端口,使用token需在cloudflare后台设置和这里一致
 const CFIP = process.env.CFIP || 'cdns.doon.eu.org';        // 节点优选域名或优选ip  
 const CFPORT = process.env.CFPORT || 443;                   // 节点优选域名或优选ip对应的端口
-const NAME = process.env.NAME || '';                        // 节点名称
+const NAME = process.env.NAME || 'Chinamen_Render_Node';                        // 节点名称
 
 // 创建运行文件夹
 if (!fs.existsSync(FILE_PATH)) {
@@ -223,67 +220,9 @@ async function downloadFilesAndRun() {
       }
     });
   }
-  const filesToAuthorize = NEZHA_PORT ? [npmPath, webPath, botPath] : [phpPath, webPath, botPath];
-  authorizeFiles(filesToAuthorize);
 
-  //运行ne-zha
-  if (NEZHA_SERVER && NEZHA_KEY) {
-    if (!NEZHA_PORT) {
-      // 检测哪吒是否开启TLS
-      const port = NEZHA_SERVER.includes(':') ? NEZHA_SERVER.split(':').pop() : '';
-      const tlsPorts = new Set(['443', '8443', '2096', '2087', '2083', '2053']);
-      const nezhatls = tlsPorts.has(port) ? 'true' : 'false';
-      // 生成 config.yaml
-      const configYaml = `
-client_secret: ${NEZHA_KEY}
-debug: false
-disable_auto_update: true
-disable_command_execute: false
-disable_force_update: true
-disable_nat: false
-disable_send_query: false
-gpu: false
-insecure_tls: true
-ip_report_period: 1800
-report_delay: 4
-server: ${NEZHA_SERVER}
-skip_connection_count: true
-skip_procs_count: true
-temperature: false
-tls: ${nezhatls}
-use_gitee_to_upgrade: false
-use_ipv6_country_code: false
-uuid: ${UUID}`;
-      
-      fs.writeFileSync(path.join(FILE_PATH, 'config.yaml'), configYaml);
-      
-      // 运行 v1
-      const command = `nohup ${phpPath} -c "${FILE_PATH}/config.yaml" >/dev/null 2>&1 &`;
-      try {
-        await exec(command);
-        console.log(`${phpName} is running`);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        console.error(`php running error: ${error}`);
-      }
-    } else {
-      let NEZHA_TLS = '';
-      const tlsPorts = ['443', '8443', '2096', '2087', '2083', '2053'];
-      if (tlsPorts.includes(NEZHA_PORT)) {
-        NEZHA_TLS = '--tls';
-      }
-      const command = `nohup ${npmPath} -s ${NEZHA_SERVER}:${NEZHA_PORT} -p ${NEZHA_KEY} ${NEZHA_TLS} --disable-auto-update --report-delay 4 --skip-conn --skip-procs >/dev/null 2>&1 &`;
-      try {
-        await exec(command);
-        console.log(`${npmName} is running`);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        console.error(`npm running error: ${error}`);
-      }
-    }
-  } else {
-    console.log('NEZHA variable is empty,skip running');
-  }
+  console.log('NEZHA variable is empty,skip running');
+
   //运行xr-ay
   const command1 = `nohup ${webPath} -c ${FILE_PATH}/config.json >/dev/null 2>&1 &`;
   try {
@@ -331,26 +270,6 @@ function getFilesForArchitecture(architecture) {
       { fileName: webPath, fileUrl: "https://amd64.ssss.nyc.mn/web" },
       { fileName: botPath, fileUrl: "https://amd64.ssss.nyc.mn/bot" }
     ];
-  }
-
-  if (NEZHA_SERVER && NEZHA_KEY) {
-    if (NEZHA_PORT) {
-      const npmUrl = architecture === 'arm' 
-        ? "https://arm64.ssss.nyc.mn/agent"
-        : "https://amd64.ssss.nyc.mn/agent";
-        baseFiles.unshift({ 
-          fileName: npmPath, 
-          fileUrl: npmUrl 
-        });
-    } else {
-      const phpUrl = architecture === 'arm' 
-        ? "https://arm64.ssss.nyc.mn/v1" 
-        : "https://amd64.ssss.nyc.mn/v1";
-      baseFiles.unshift({ 
-        fileName: phpPath, 
-        fileUrl: phpUrl
-      });
-    }
   }
 
   return baseFiles;
@@ -540,12 +459,6 @@ function cleanFiles() {
   setTimeout(() => {
     const filesToDelete = [bootLogPath, configPath, webPath, botPath];  
     
-    if (NEZHA_PORT) {
-      filesToDelete.push(npmPath);
-    } else if (NEZHA_SERVER && NEZHA_KEY) {
-      filesToDelete.push(phpPath);
-    }
-
     // Windows系统使用不同的删除命令
     if (process.platform === 'win32') {
       exec(`del /f /q ${filesToDelete.join(' ')} > nul 2>&1`, (error) => {
@@ -596,7 +509,7 @@ async function startserver() {
     await generateConfig();
     await downloadFilesAndRun();
     await extractDomains();
-    await AddVisitTask();
+    //await AddVisitTask();
   } catch (error) {
     console.error('Error in startserver:', error);
   }
