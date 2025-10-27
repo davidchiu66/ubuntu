@@ -16,7 +16,7 @@ COPY app.sh /app.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
-    apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 nodejs npm --no-install-recommends; \
+    apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 nodejs npm python --no-install-recommends; \
     apt-get clean; \
     npm install; \
     rm -rf /var/lib/apt/lists/*; \
