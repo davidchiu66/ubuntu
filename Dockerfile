@@ -11,8 +11,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY reboot.sh /usr/local/sbin/reboot
 COPY index.js /index.js
 COPY app.js /app.js
-COPY app.py /app.py
 COPY package.json /package.json
+COPY app.py /app.py
+COPY requirements.txt /requirements.txt
 COPY app.sh /app.sh
 
 RUN export DEBIAN_FRONTEND=noninteractive; \
