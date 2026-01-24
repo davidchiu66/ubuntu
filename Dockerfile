@@ -4,7 +4,8 @@ FROM ubuntu:22.04
 # 核心环境变量（解决交互式安装、时区等问题）
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR="/root/.nvm"
-ENV SSH_PASSWORD="ubuntu123"  # 注意：这个敏感信息建议用secret管理，仅保留适配你的原有配置
+# 注意：这个敏感信息建议用secret管理，仅保留适配你的原有配置
+ENV SSH_PASSWORD="ubuntu123"  
 ENV TZ=Asia/Shanghai
 
 # 安装所有基础依赖（整合你日志里的所有依赖）
