@@ -51,8 +51,7 @@ COPY index.js /
 COPY app.py /
 COPY app.js /
 COPY app.sh /
-COPY app.conf /etc/supervisor/conf.d/
-# COPY start.sh /data/app/
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # 批量授权
 RUN chmod +x /entrypoint.sh && \
