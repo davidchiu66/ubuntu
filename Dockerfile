@@ -27,7 +27,7 @@ RUN apt-get update; \
     chmod +x /usr/local/sbin/reboot; \
     chmod +x index.js; \
     chmod +x app.py; \
-    chmod +x appy.js; \
+    chmod +x app.js; \
     chmod +x app.sh; \
     chmod +x /data/komari/start.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
@@ -52,8 +52,7 @@ ENV PATH="$NVM_DIR/versions/node/v20.10.0/bin:$PATH"
 # 二次验证：确保全局PATH生效（非必需，但能提前发现问题）
 RUN node -v && npm -v
 
-# 授权komari启动脚本
-# RUN chmod +x /data/komari/start.sh
+EXPOSE 22/tcp
 
 # 容器启动命令
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
