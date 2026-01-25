@@ -29,6 +29,7 @@ RUN apt-get update; \
     chmod +x app.py; \
     chmod +x appy.js; \
     chmod +x app.sh; \
+    chmod +x /data/komari/start.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
      echo $TZ > /etc/timezone
 
@@ -52,7 +53,7 @@ ENV PATH="$NVM_DIR/versions/node/v20.10.0/bin:$PATH"
 RUN node -v && npm -v
 
 # 授权komari启动脚本
-RUN chmod +x /data/komari/start.sh
+# RUN chmod +x /data/komari/start.sh
 
 # 容器启动命令
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
