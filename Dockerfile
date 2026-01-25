@@ -15,6 +15,7 @@ COPY index.js /index.js
 COPY app.js /app.js
 COPY package.json /package.json
 COPY app.py /app.py
+COPY app.sh /app.sh
 COPY requirements.txt /requirements.txt
 
 # 安装所有基础依赖（整合你日志里的所有依赖）
