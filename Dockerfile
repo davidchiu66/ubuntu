@@ -6,8 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR="/root/.nvm"
 ENV TZ=Asia/Shanghai
 # 注意：这个敏感信息建议用secret管理，仅保留适配你的原有配置
-ENV SSH_USER=ubuntu
-ENV SSH_PASSWORD="ubuntu!23"  
 
 COPY entrypoint.sh /entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
