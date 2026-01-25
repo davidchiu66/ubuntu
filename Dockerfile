@@ -4,7 +4,8 @@ FROM ubuntu:22.04
 # 核心环境变量（解决交互式安装、时区等问题）
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR="/root/.nvm"
-ENV TZ=Asia/Shanghai
+ENV TZ=Asia/Shanghai \
+    SSH_USER=ubuntu
 # 注意：这个敏感信息建议用secret管理，仅保留适配你的原有配置
 
 COPY entrypoint.sh /entrypoint.sh
@@ -19,7 +20,7 @@ COPY requirements.txt /requirements.txt
 
 # 安装所有基础依赖（整合你日志里的所有依赖）
 RUN apt-get update; \
-    apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 python3.10 pip --no-install-recommends; \
+    apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 nano python3.10 pip --no-install-recommends; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
     mkdir /var/run/sshd; \
@@ -53,5 +54,7 @@ RUN node -v && npm -v
 
 EXPOSE 22/tcp
 
+ENTRYPOINT ["/entrypoint.sh"]
+#CMD ["/usr/sbin/sshd", "-D"]
 # 容器启动命令
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
