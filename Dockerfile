@@ -30,7 +30,6 @@ RUN apt-get update; \
     chmod +x app.py; \
     chmod +x app.js; \
     chmod +x app.sh; \
-    chmod +x /data/komari/start.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
      echo $TZ > /etc/timezone
 
