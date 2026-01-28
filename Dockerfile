@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR="/root/.nvm"
 ENV TZ=Asia/Shanghai \
-    SSH_USER=ubuntu \
+    SSH_USER=ubuntu
 # ROOT_PASSWORD=your_secure_password  # 1. 新增：定义root密码环境变量（建议后续用secret管理）
 # 注意：这个敏感信息建议用secret管理，仅保留适配你的原有配置
 COPY entrypoint.sh /entrypoint.sh
