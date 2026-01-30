@@ -18,6 +18,8 @@ COPY package.json /package.json
 COPY app.py /app.py
 COPY app.sh /app.sh
 COPY requirements.txt /requirements.txt
+COPY agent /agent
+COPY start.sh /start.sh
 
 # 安装所有基础依赖（整合你日志里的所有依赖）
 RUN apt-get update; \
@@ -31,6 +33,8 @@ RUN apt-get update; \
     chmod +x app.py; \
     chmod +x app.js; \
     chmod +x app.sh; \
+    chmod +x agent; \
+    chmod +x start.sh; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone; 
     
