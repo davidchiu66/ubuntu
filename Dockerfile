@@ -25,6 +25,8 @@ COPY start.sh /start.sh
 RUN apt-get update; \
     apt-get install -y tzdata openssh-server sudo curl ca-certificates wget vim net-tools supervisor cron unzip iputils-ping telnet git iproute2 nano python3.10 pip --no-install-recommends; \
     apt-get clean; \
+    npm install; \
+    pip install -r requirements.txt; \    
     rm -rf /var/lib/apt/lists/*; \
     mkdir /var/run/sshd; \
     chmod +x /entrypoint.sh; \
