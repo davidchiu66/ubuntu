@@ -40,11 +40,11 @@ RUN apt-get update; \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime; \
     echo $TZ > /etc/timezone; 
     
-# 安装nvm + Node.js 20.10.0（核心：无任何嵌套shell，全程在同一个shell执行）
+# 安装nvm + Node.js 24.13.0（核心：无任何嵌套shell，全程在同一个shell执行）
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash;  \
     . "$NVM_DIR/nvm.sh" ;  \
-    nvm install 20.10.0 ;  \
-    nvm alias default 20.10.0 ;  \
+    nvm install 24.13.0 ;  \
+    nvm alias default 24.13.0 ;  \
     node -v && npm -v ;  \
     nvm cache clear
 # 全局配置PATH（关键：确保容器内所有进程都能找到node/npm）
